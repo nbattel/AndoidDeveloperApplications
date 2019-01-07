@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,11 +20,9 @@ public class MainActivity extends AppCompatActivity {
         EditText currencyEditText = (EditText) findViewById(R.id.currencyEditText);
         Log.i("Info", "Working!");
 
-        String amntInPounds = currencyEditText.getText().toString();
-        //converting the amount in pounds to a string variable called amntInPounds
+        String amntInEuros = currencyEditText.getText().toString();                                                            //converting the amount in Euros to a string variable called amntInEuros
 
-        double currency = Double.parseDouble(amntInPounds);
-        //Converting amntInpounds to a currency of type double
+        double currency = Double.parseDouble(amntInEuros);                                                                     //Converting amntInEuros to a currency of type double
 
         final String[] responseFromAPI = new String[1];
 
@@ -33,24 +30,21 @@ public class MainActivity extends AppCompatActivity {
         try {
 
             Thread thread = new Thread(new Runnable(){
+
                 @Override
                 public void run(){
-                    //code to do the HTTP request
-                    String urlToRead = "http://data.fixer.io/api/latest?access_key=" + API_KEY + "&symbols=CAD";
+
+                    String urlToRead = "http://data.fixer.io/api/latest?access_key=" + API_KEY + "&symbols=CAD";               //Reading the API key and base and symbol conversions on the fixer API site
                     StringBuilder result = new StringBuilder();
 
-                    Log.i("URL:", urlToRead);
+                    Log.i("URL:", urlToRead);                                                                             //Displaying the returned urlToRead in the Logcat
 
                     try {
                         URL url = new URL(urlToRead);
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-                        Log.i("Connection: ", conn.toString());
-
                         conn.setRequestMethod("GET");
                         BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-                        Log.i("buffer: ", rd.toString());
 
                         String line;
                         while ((line = rd.readLine()) != null) {
@@ -64,13 +58,13 @@ public class MainActivity extends AppCompatActivity {
                     } catch ( Exception e ) {}
                 }
             });
-            thread.start();
+            thread.start();                                                                                                   //Starts the thread
 
-            Thread.sleep(400);
+            Thread.sleep(500);                                                                                          //Disabling the button for half a second, allowing for the toast to display without the button being clicked again
             String response = responseFromAPI[0];
-            Log.i("Response", response);
-            String toSearchFor = "\"CAD\":";
-            int index = response.lastIndexOf(toSearchFor)+toSearchFor.length(); // start of the rate
+            Log.i("Response", response);                                                                                 //Message displayed in the log for debugging purposes
+            String toSearchFor = "\"CAD\":";                                                                                 //What to search for in the string returned by the API
+            int index = response.lastIndexOf(toSearchFor)+toSearchFor.length();                                              // start of the rate from the string returned from the API
 
             String rateAsString = "";
             for (int i = index; i < response.length(); i++) {
@@ -78,28 +72,23 @@ public class MainActivity extends AppCompatActivity {
                     rateAsString = new StringBuilder().append(rateAsString).append(response.charAt(i)).toString();
                 }
             }
-            rate = Double.parseDouble(rateAsString);
-            Log.i("Response", response);
-            Log.i("Index", Integer.toString(index));
-            Log.i("Rate", Double.toString(rate));
+            rate = Double.parseDouble(rateAsString);                                                                         //Parsing the rate from a string to a double
+            Log.i("Index", Integer.toString(index));                                                                    //Displaying the index in the Logcat for debugging purposes
+            Log.i("Rate", Double.toString(rate));                                                                       //Displaying the rate in the Logcat fro debugging purposes
 
-            double temp = currency * rate;
-            //Calculating the amount of Euros in dollars
+            double temp = currency * rate;                                                                                  //Calculating the amount of Euros in dollars
 
-            String amntInDollars = String.format("%.2f", temp);
-            //Converting the calculated dollar amount to a string of only two decimal places
+            String amntInDollars = String.format("%.2f", temp);                                                             //Converting the calculated dollar amount to a string of only two decimal places
 
-            Toast.makeText(this, "€" + amntInPounds + " is " + "$" + amntInDollars, Toast.LENGTH_LONG).show();
-            //Displaying the converted amount through a toast
+            Toast.makeText(this, "€" + amntInEuros + " is " + "$" + amntInDollars, Toast.LENGTH_LONG).show();   //Displaying the converted amount through a toast
 
         } catch ( Exception e )
         {
-            Log.i("Info", e.getMessage());
-            rate = 0;
-            Log.i("USING DEFAULT RATE", "1.53");
+            rate = 1.53;                                                                                                    //Default rate to use if an exception is thrown
+            Log.i("USING DEFAULT RATE", "1.53");                                                                  //Displays message in the Log for debugging purposes
         }
 
-        button.setEnabled(true);
+        button.setEnabled(true);                                                                                           //Enabling the button
     }
     Button button;
     @Override
