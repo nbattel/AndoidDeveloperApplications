@@ -1,5 +1,5 @@
 # AndoidDeveloperApplications
-Apps built from my Udemy course, The Complete Android Oreo Developer Course - Build 23 Apps, By Rob Percival and Nick Walter
+Apps built from my Udemy course, The Complete Android Oreo Developer Course - By Rob Percival and Nick Walter
 
 # Completed
 
