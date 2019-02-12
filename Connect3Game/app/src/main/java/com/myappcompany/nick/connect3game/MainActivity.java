@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         playAgainButton.setVisibility(view.INVISIBLE);
         winnerTextView.setVisibility(view.INVISIBLE);
 
-        GridLayout gridLayout = (GridLayout) findViewById(R.id.gridLayout);
+        android.support.v7.widget.GridLayout gridLayout = findViewById(R.id.gridLayout);
         for (int i = 0; i < gridLayout.getChildCount(); i++)
         {
             ImageView counter = (ImageView) gridLayout.getChildAt(i);
