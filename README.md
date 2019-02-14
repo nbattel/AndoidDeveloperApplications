@@ -11,8 +11,6 @@ An app that uses a random number generator to generate a random number for the u
 
 An app which allows the user to enter any number. Using classes, loops and algorithms this app identifies whether the number entered by the user is a triangular number, a square number, both, or neither. The user is informed with a toast.
 
-# In Progress
-
 - ### Connect 3 Game
 
 An app that allows two users to play tic tac toes. The users will be playing on a 3x3 board where they have to tap the location on the screen that they want to place there piece. The first person to get a line of 3 wins.
